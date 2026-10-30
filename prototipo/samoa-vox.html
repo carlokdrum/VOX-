@@ -1,0 +1,374 @@
+<title>Prueba Vox Samoa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Special+Elite&display=swap">
+<style>
+/* Concepto: mesa oscura con el escenario vertical 9:16; papel de periódico real, cinta, recortes con borde rasgado y letras de rescate */
+:root{
+  --desk:#1b1916;
+  --panel:#26231f;
+  --ink:#1a1814;
+  --paper:#f3eee0;
+  --news:#d8d1ba;
+  --back:#d7cba9;
+  --red:#c8372d;
+  --ui:#efe6d2;
+  --ui-dim:#a79c85;
+  --line:#3a362f;
+  --f-display:'Playfair Display',Georgia,'Times New Roman',serif;
+  --f-label:'Oswald','Arial Narrow',Impact,sans-serif;
+  --f-type:'Special Elite','Courier New',monospace;
+  --f-news:Georgia,'Times New Roman',serif;
+  color-scheme:dark;
+}
+body{background:var(--desk);color:var(--ui);font-family:var(--f-label);font-weight:500;padding-block:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.stage{position:relative;flex:0 1 360px;width:360px;max-width:100%;aspect-ratio:9/16;overflow:hidden;background:var(--back);container-type:inline-size;isolation:isolate;border:2px solid #000}
+.side{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.side h1{font:900 30px/1.1 var(--f-display);margin:0;text-wrap:balance}
+.side .sub{font:500 13px/1.4 var(--f-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ui-dim);margin:6px 0 0}
+.ctl{display:flex;flex-direction:column;gap:14px;background:var(--panel);border:1px solid var(--line);padding:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn,.file span{display:inline-block;background:var(--red);color:#fff;font:500 14px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase;padding:11px 16px;border:0;border-radius:2px;cursor:pointer}
+.btn.alt,.file span{background:transparent;color:var(--ui);border:1px solid var(--ui-dim)}
+.btn:focus-visible,.file input:focus-visible+span,input[type=range]:focus-visible,select:focus-visible{outline:2px solid var(--ui);outline-offset:2px}
+.file input{position:absolute;opacity:0;width:1px;height:1px}
+.file{position:relative}
+label.rg{display:flex;flex-direction:column;gap:6px;font:500 12px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase;color:var(--ui-dim)}
+input[type=range]{width:100%;accent-color:var(--red)}
+select{background:var(--desk);color:var(--ui);border:1px solid var(--ui-dim);padding:9px 10px;font:500 13px/1 var(--f-label);letter-spacing:.06em}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font:400 13px/1.45 system-ui,sans-serif;color:var(--ui-dim)}
+dt{font:500 12px/1.6 var(--f-label);letter-spacing:.12em;text-transform:uppercase;color:var(--ui)}
+dd{margin:0;min-width:0}
+.note{font:400 13px/1.5 system-ui,sans-serif;color:var(--ui-dim);margin:0}
+
+.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.stain{mix-blend-mode:multiply;opacity:.6;z-index:1}
+#bg{mix-blend-mode:multiply;opacity:.72;z-index:1}
+.paper{mix-blend-mode:multiply;opacity:.6;z-index:19}
+.fib{mix-blend-mode:multiply;opacity:.2;z-index:18}
+.vig{z-index:20;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 52%,rgba(40,24,8,.5) 100%);mix-blend-mode:multiply}
+#dust{z-index:21}
+
+.np{position:absolute;background:var(--news);background-image:linear-gradient(100deg,rgba(255,255,255,.28),rgba(60,40,10,.08));color:var(--ink);filter:url(#torn);z-index:2;overflow:hidden;padding:2.2cqw}
+.np::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 48%,rgba(255,255,255,.35) 50%,rgba(0,0,0,.14) 51%,transparent 54%);pointer-events:none}
+.tx{filter:url(#ink);mix-blend-mode:multiply}
+.hl{font:900 6.2cqw/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;margin:0 0 1.2cqw}
+.by{font:italic 400 2.2cqw/1.2 var(--f-news);border-top:.3cqw solid var(--ink);border-bottom:.3cqw solid var(--ink);padding:.6cqw 0;margin:0 0 1.2cqw}
+.cols{column-count:3;column-gap:2cqw;column-rule:.2cqw solid rgba(26,24,20,.65);font:400 2cqw/1.28 var(--f-news);text-align:justify;hyphens:auto}
+.cols p{margin:0}
+.cols p+p{text-indent:2cqw}
+.ad{border:.5cqw double var(--ink);padding:1.4cqw;margin-bottom:1.2cqw;text-align:center;break-inside:avoid;font:700 2.2cqw/1.2 var(--f-label);letter-spacing:.08em;text-transform:uppercase}
+.ad span{display:block;font:400 1.9cqw/1.25 var(--f-news);letter-spacing:0;text-transform:none;margin-top:.6cqw}
+.np1{left:-7%;top:.5%;width:82%;height:25%;rotate:-4deg}
+.np2{right:-8%;bottom:16%;width:68%;height:21%;rotate:3deg}
+.np2 .cols{column-count:2}
+
+.lab{position:absolute;left:7%;top:5.5%;z-index:9;background:var(--paper);color:var(--ink);font:400 3.4cqw/1 var(--f-type);letter-spacing:.14em;padding:1.6cqw 2.6cqw;rotate:-2deg;opacity:0;filter:url(#cut)}
+.slot{position:absolute;left:12%;top:15%;width:76%;height:44%;transform-origin:50% 0;opacity:0;z-index:5}
+.sheet{width:100%;height:100%;background:var(--paper);filter:url(#torn);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.hd{background:var(--red);color:#f7f1e1;font:500 4.2cqw/1 var(--f-label);letter-spacing:.24em;padding:2.8cqw 0 2.4cqw;text-align:center;text-shadow:.45cqw 0 rgba(20,90,150,.45)}
+.holes{position:absolute;top:1.1cqw;left:0;right:0;display:flex;justify-content:space-around;padding:0 18%;z-index:2}
+.holes i{width:2.2cqw;height:2.2cqw;border-radius:50%;background:#6b604f;display:block;box-shadow:inset .3cqw .4cqw .3cqw rgba(0,0,0,.45)}
+.nm{font:700 31cqw/.95 var(--f-label);text-align:center;color:var(--ink);filter:url(#ink);margin-top:1.6cqw}
+.wd{font:500 5.2cqw/1 var(--f-label);letter-spacing:.32em;text-align:center;color:var(--ink);margin-top:.2cqw;filter:url(#ink)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);font:500 2.1cqw/1.55 var(--f-label);text-align:center;margin:1.4cqw 5cqw 0;color:var(--ink);letter-spacing:.04em}
+.cal i{font-style:normal;color:#7a6f5b}
+.cal b{font-weight:500;border:.45cqw solid var(--red);border-radius:50%;line-height:1.2;color:var(--red)}
+.stp{position:absolute;left:8%;right:8%;top:42%;text-align:center;border:1cqw solid #b3261e;color:#b3261e;font:400 9.5cqw/1 var(--f-type);padding:2cqw 0;rotate:-9deg;mix-blend-mode:multiply;opacity:0;filter:url(#ink)}
+.tape{position:absolute;width:16cqw;height:5.6cqw;background:rgba(232,214,150,.62);mix-blend-mode:multiply;z-index:3;clip-path:polygon(0 0,100% 0,97% 20%,100% 40%,97% 60%,100% 80%,97% 100%,0 100%,3% 80%,0 60%,3% 40%,0 20%);box-shadow:0 .3cqw .6cqw rgba(0,0,0,.25)}
+.t1{left:-4cqw;top:-1cqw;rotate:-38deg}
+.t2{right:-4cqw;top:-1cqw;rotate:38deg}
+.mw{position:absolute;right:4%;top:3%;width:27%;z-index:8;opacity:0}
+#moon{display:block;width:100%;height:auto;filter:url(#cut)}
+.tw{position:absolute;left:3%;width:94%;z-index:10;display:flex;justify-content:center;align-items:center;flex-wrap:nowrap}
+.tw.a{top:63.5%}
+.tw.b{top:74%}
+.l{display:inline-block;line-height:1;position:relative;filter:url(#cut);margin:0 .25cqw;opacity:0}
+.sp{display:inline-block;width:3cqw}
+.cp{position:absolute;left:6%;right:6%;bottom:4%;z-index:11;opacity:0}
+.cp span{display:block;background:var(--ink);color:#f7f1e1;font:italic 700 5.4cqw/1.25 var(--f-display);text-align:center;padding:1.8cqw 3cqw;filter:url(#cut)}
+.boil{animation:boil .5s steps(1) infinite}
+@keyframes boil{0%{transform:rotate(-.4deg) translate(0,0)}33%{transform:rotate(.35deg) translate(.5px,-.5px)}66%{transform:rotate(-.15deg) translate(-.5px,.5px)}}
+.go .s29{animation:s29 5s forwards}
+.go .s30{animation:s30 5s forwards}
+.go .s31{animation:s31 5s forwards}
+.go .stp{animation:stp 5s forwards}
+.go .lab{animation:lab 5s forwards}
+.go .mw{animation:mo 5s forwards}
+.go .l{animation:lp .2s steps(2,end) both;animation-delay:calc(3.5s + var(--i)*.07s)}
+.go .c1{animation:c1 5s forwards}
+.go .c2{animation:c2 5s forwards}
+.go .c3{animation:c3 5s forwards}
+@keyframes s29{0%{transform:scale(.7) rotate(-4deg);opacity:0}6%{transform:scale(1.04);opacity:1}9%,24%{transform:none;opacity:1}34%{transform:translate(-140%,50%) rotate(-28deg);opacity:1}35%,100%{transform:translate(-140%,50%) rotate(-28deg);opacity:0}}
+@keyframes s30{0%{opacity:0}7%,50%{transform:none;opacity:1}60%{transform:translate(140%,40%) rotate(26deg);opacity:1}61%,100%{transform:translate(140%,40%) rotate(26deg);opacity:0}}
+@keyframes s31{0%,58%{opacity:0}60%{opacity:1;transform:scale(.92)}66%{transform:scale(1.03)}72%,100%{opacity:1;transform:none}}
+@keyframes stp{0%,36%{opacity:.92;transform:scale(2);opacity:0}40%,100%{opacity:.92;transform:scale(1)}}
+@keyframes lab{0%,8%{opacity:0}12%,100%{opacity:1}}
+@keyframes mo{0%,3%{opacity:0;transform:scale(.3) rotate(-30deg)}9%,100%{opacity:1;transform:scale(1) rotate(6deg)}}
+@keyframes lp{from{opacity:0;transform:scale(1.6)}to{opacity:1;transform:none}}
+@keyframes c1{0%,4%{opacity:0}8%,50%{opacity:1}52%,100%{opacity:0}}
+@keyframes c2{0%,52%{opacity:0}56%,72%{opacity:1}74%,100%{opacity:0}}
+@keyframes c3{0%,74%{opacity:0}78%,100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.go *{animation-duration:.01s!important;animation-delay:0s!important}.boil{animation:none}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="torn" x="-12%" y="-12%" width="126%" height="128%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="2" seed="3" result="n1"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".24" numOctaves="3" seed="9" result="n2"/>
+      <feDisplacementMap in="SourceGraphic" in2="n1" scale="13" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feDisplacementMap in="d1" in2="n2" scale="5" xChannelSelector="G" yChannelSelector="B" result="d2"/>
+      <feMorphology in="d2" operator="dilate" radius="2.4" result="dl"/>
+      <feColorMatrix in="dl" type="matrix" values="0 0 0 0 .96  0 0 0 0 .94  0 0 0 0 .88  0 0 0 1 0" result="fr"/>
+      <feDisplacementMap in="fr" in2="n2" scale="4" xChannelSelector="B" yChannelSelector="R" result="fr2"/>
+      <feGaussianBlur in="fr2" stdDeviation="3.6" result="b"/>
+      <feOffset in="b" dx="4" dy="7" result="bo"/>
+      <feColorMatrix in="bo" type="matrix" values="0 0 0 0 .1  0 0 0 0 .07  0 0 0 0 .04  0 0 0 .55 0" result="sh"/>
+      <feGaussianBlur in="fr2" stdDeviation=".9" result="b2"/>
+      <feOffset in="b2" dx="1" dy="1.6" result="bo2"/>
+      <feColorMatrix in="bo2" type="matrix" values="0 0 0 0 .1  0 0 0 0 .07  0 0 0 0 .04  0 0 0 .5 0" result="cs"/>
+      <feMerge><feMergeNode in="sh"/><feMergeNode in="cs"/><feMergeNode in="fr2"/><feMergeNode in="d2"/></feMerge>
+    </filter>
+    <filter id="cut" x="-10%" y="-10%" width="122%" height="125%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feMorphology in="d" operator="dilate" radius="2" result="dl"/>
+      <feColorMatrix in="dl" type="matrix" values="0 0 0 0 .97  0 0 0 0 .95  0 0 0 0 .9  0 0 0 1 0" result="fr"/>
+      <feGaussianBlur in="fr" stdDeviation="2.6" result="b"/>
+      <feOffset in="b" dx="3" dy="5" result="bo"/>
+      <feColorMatrix in="bo" type="matrix" values="0 0 0 0 .1  0 0 0 0 .07  0 0 0 0 .04  0 0 0 .5 0" result="sh"/>
+      <feMerge><feMergeNode in="sh"/><feMergeNode in="fr"/><feMergeNode in="d"/></feMerge>
+    </filter>
+    <filter id="ink" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="6" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation=".28"/>
+    </filter>
+    <filter id="paperf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".62" numOctaves="4" seed="5" result="t"/>
+      <feDiffuseLighting in="t" surfaceScale="1.7" diffuseConstant="1.05" lighting-color="#ffffff"><feDistantLight azimuth="225" elevation="58"/></feDiffuseLighting>
+    </filter>
+    <filter id="fibf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".9 .03" numOctaves="2" seed="8"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncR type="gamma" amplitude="1.5" exponent="2.4" offset="0"/><feFuncG type="gamma" amplitude="1.5" exponent="2.4" offset="0"/><feFuncB type="gamma" amplitude="1.5" exponent="2.4" offset="0"/></feComponentTransfer>
+    </filter>
+    <filter id="stainf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".009" numOctaves="5" seed="11"/>
+      <feColorMatrix type="matrix" values=".9 0 0 0 .1  0 .7 0 0 .12  0 0 .45 0 .12  0 0 0 0 1"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <div class="stage go" id="stage" role="img" aria-label="Animación de 5 segundos en estilo collage de periódico: el calendario pasa del jueves 29 al sábado 31 de diciembre de 2011 y aparece el título El viernes no existió, armado con letras recortadas.">
+    <svg class="fx stain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#stainf)"/></svg>
+    <canvas class="fx" id="bg" width="720" height="1280" aria-hidden="true"></canvas>
+
+    <div class="np np1 boil" aria-hidden="true"><div class="tx" lang="es">
+      <h2 class="hl">El país que se saltó un día</h2>
+      <p class="by">Apia, Samoa · Diciembre de 2011</p>
+      <div class="cols"><p>Las autoridades de Samoa confirmaron que el país cruzará la línea internacional de cambio de fecha a la medianoche del jueves. Los relojes pasarán directamente al sábado 31 de diciembre.</p><p>La medida busca alinear el calendario con Australia y Nueva Zelanda, sus principales socios comerciales, que hasta ahora vivían un día por delante de la isla.</p><p>Desde 1892, Samoa había contado el tiempo igual que el continente americano, porque su comercio dependía de los barcos procedentes de California.</p></div>
+    </div></div>
+    <div class="np np2 boil" aria-hidden="true"><div class="tx" lang="es">
+      <div class="ad">Aviso a los pasajeros<span>Los vuelos del viernes 30 quedan sin servicio. Consulte su itinerario.</span></div>
+      <div class="cols"><p>Con Australia y Nueva Zelanda como socios, la semana laboral compartida se había reducido a cuatro días. Cuando Samoa tenía viernes, sus clientes ya estaban en sábado.</p><p>Los bancos y las oficinas públicas ajustarán sus horarios durante la primera semana del nuevo calendario.</p></div>
+    </div></div>
+
+    <div class="lab">SAMOA · 2011</div>
+
+    <div class="slot s31"><div class="sheet boil"><div class="holes"><i></i><i></i></div><div class="hd">DICIEMBRE 2011</div><div class="nm">31</div><div class="wd">SÁBADO</div><div class="cal" data-day="31"></div></div><div class="tape t1"></div><div class="tape t2"></div></div>
+    <div class="slot s30"><div class="sheet boil"><div class="holes"><i></i><i></i></div><div class="hd">DICIEMBRE 2011</div><div class="nm">30</div><div class="wd">VIERNES</div><div class="cal" data-day="30"></div><div class="stp">NO EXISTE</div></div><div class="tape t1"></div><div class="tape t2"></div></div>
+    <div class="slot s29"><div class="sheet boil"><div class="holes"><i></i><i></i></div><div class="hd">DICIEMBRE 2011</div><div class="nm">29</div><div class="wd">JUEVES</div><div class="cal" data-day="29"></div></div><div class="tape t1"></div><div class="tape t2"></div></div>
+
+    <div class="mw"><canvas id="moon" class="boil"></canvas></div>
+
+    <div class="tw a boil" id="ra"></div>
+    <div class="tw b boil" id="rb"></div>
+
+    <div class="cp c1"><span>Un país se fue a dormir un jueves…</span></div>
+    <div class="cp c2"><span>…y despertó el sábado.</span></div>
+    <div class="cp c3"><span>El viernes no existió.</span></div>
+
+    <svg class="fx fib" aria-hidden="true"><rect width="100%" height="100%" filter="url(#fibf)"/></svg>
+    <svg class="fx paper" aria-hidden="true"><rect width="100%" height="100%" filter="url(#paperf)"/></svg>
+    <div class="fx vig" aria-hidden="true"></div>
+    <canvas class="fx" id="dust" width="720" height="1280" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="side">
+    <div>
+      <h1>Samoa, el viernes que no existió</h1>
+      <p class="sub">Prueba de estilo Vox · gancho de 5 segundos</p>
+    </div>
+    <div class="ctl">
+      <div class="row">
+        <button class="btn" id="rp" type="button">Repetir</button>
+        <label class="file"><input type="file" id="fl" accept="image/*"><span>Cargar foto</span></label>
+        <button class="btn alt" id="rs" type="button">Quitar foto</button>
+      </div>
+      <label class="rg" for="mode">Tratamiento de la foto
+        <select id="mode"><option value="trama">Trama de periódico</option><option value="foto">Foto real recortada</option></select>
+      </label>
+      <label class="rg" for="cell">Tamaño de la trama <output id="co">7</output> px
+        <input type="range" id="cell" min="4" max="14" step="1" value="7">
+      </label>
+    </div>
+    <dl>
+      <dt>Papel</dt><dd>Relieve de fibra con iluminación difusa sobre ruido fractal, más fibras alargadas y manchas de envejecimiento.</dd>
+      <dt>Periódico</dt><dd>Titular, entradilla, columnas justificadas con filete y un aviso. La tinta se corre un poco, como en offset.</dd>
+      <dt>Recortes</dt><dd>Borde rasgado a dos escalas, flequillo blanco de fibra y sombra suave de contacto.</dd>
+      <dt>Calendario</dt><dd>Hoja de taco con agujeros, cuadrícula real de diciembre de 2011 y cinta adhesiva.</dd>
+      <dt>Título</dt><dd>Letras de rescate, cada una de una fuente y un papel distintos.</dd>
+    </dl>
+    <p class="note">Esto es lo más cercano al papel real que se logra con código. Las fotos y las texturas fotográficas de verdad se generan con IA y se componen aquí encima.</p>
+  </div>
+</div>
+
+<script>
+var stage=document.getElementById('stage');
+var mc=document.getElementById('moon');
+var cur=null;
+
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+function play(){stage.classList.remove('go');void stage.offsetWidth;stage.classList.add('go');}
+
+function burst(){
+  var c=document.getElementById('bg'),x=c.getContext('2d'),W=c.width,H=c.height;
+  x.clearRect(0,0,W,H);x.fillStyle='#d8472a';
+  var cell=W/34,a=Math.PI/6,cs=Math.cos(a),sn=Math.sin(a),D=Math.hypot(W,H);
+  for(var gy=-D;gy<D;gy+=cell){for(var gx=-D;gx<D;gx+=cell){
+    var px=gx*cs-gy*sn+W/2,py=gx*sn+gy*cs+H/2;
+    if(px<0||py<0||px>W||py>H)continue;
+    var d1=Math.hypot(px-W,py-H*.05)/(W*.95),d2=Math.hypot(px,py-H*.88)/(W*.8);
+    var t=Math.max(0,1-Math.min(d1,d2));
+    if(t<=.05)continue;
+    x.beginPath();x.arc(px,py,cell*.62*t,0,6.283);x.fill();
+  }}
+}
+
+function dust(){
+  var c=document.getElementById('dust'),x=c.getContext('2d'),W=c.width,H=c.height,r=rng(77),i;
+  x.clearRect(0,0,W,H);
+  for(i=0;i<90;i++){
+    x.fillStyle=r()<.5?'rgba(20,16,10,'+(.25+r()*.4)+')':'rgba(255,250,235,'+(.3+r()*.4)+')';
+    x.beginPath();x.arc(r()*W,r()*H,.4+r()*1.6,0,6.283);x.fill();
+  }
+  x.strokeStyle='rgba(20,16,10,.35)';x.lineWidth=.8;
+  for(i=0;i<5;i++){
+    var sx=r()*W,sy=r()*H;
+    x.beginPath();x.moveTo(sx,sy);
+    x.bezierCurveTo(sx+r()*60-30,sy+r()*40,sx+r()*60-30,sy+r()*60,sx+r()*80-40,sy+r()*80-20);
+    x.stroke();
+  }
+}
+
+function calendars(){
+  var heads=['D','L','M','M','J','V','S'];
+  document.querySelectorAll('.cal').forEach(function(e){
+    var day=+e.dataset.day,h='';
+    heads.forEach(function(k){h+='<i>'+k+'</i>';});
+    for(var b=0;b<4;b++)h+='<span></span>';
+    for(var d=1;d<=31;d++)h+=(d===day)?'<b>'+d+'</b>':'<span>'+d+'</span>';
+    e.innerHTML=h;
+  });
+}
+
+var COMBO=[['#efe5cc','#1a1814'],['#1a1814','#efe5cc'],['#c8372d','#f3eee0'],['#d8d1ba','#1a1814'],['#1d6f63','#f3eee0'],['#e8c547','#1a1814'],['#f3eee0','#c8372d']];
+var FONTS=["'Playfair Display',Georgia,serif","'Oswald',Impact,sans-serif","'Special Elite','Courier New',monospace","'Arial Black',Impact,sans-serif","Georgia,'Times New Roman',serif","Impact,'Arial Narrow',sans-serif"];
+
+function ransom(el,txt,n,r){
+  txt.split('').forEach(function(ch){
+    if(ch===' '){var g=document.createElement('span');g.className='sp';el.appendChild(g);return;}
+    var s=document.createElement('span'),p=COMBO[(r()*COMBO.length)|0],f=FONTS[(r()*FONTS.length)|0];
+    s.className='l';s.textContent=ch;
+    s.style.background=p[0];s.style.color=p[1];s.style.fontFamily=f;
+    s.style.fontWeight=r()<.5?'900':'700';
+    s.style.fontSize=(9.6+r()*2.6).toFixed(1)+'cqw';
+    s.style.padding=(.6+r()*.5).toFixed(2)+'cqw '+(.9+r()*.5).toFixed(2)+'cqw';
+    s.style.rotate=(r()*9-4.5).toFixed(1)+'deg';
+    s.style.top=(r()*1.6-.8).toFixed(2)+'cqw';
+    s.style.setProperty('--i',n.v++);
+    el.appendChild(s);
+  });
+}
+
+function star(c,cx,cy,r){
+  c.beginPath();c.moveTo(cx,cy-r);c.quadraticCurveTo(cx,cy,cx+r,cy);c.quadraticCurveTo(cx,cy,cx,cy+r);c.quadraticCurveTo(cx,cy,cx-r,cy);c.quadraticCurveTo(cx,cy,cx,cy-r);c.fill();
+}
+
+function drawMoon(){
+  var s=document.createElement('canvas');s.width=s.height=260;
+  var c=s.getContext('2d');
+  var g=c.createRadialGradient(95,105,10,125,125,125);
+  g.addColorStop(0,'#fbfbfb');g.addColorStop(.55,'#b4b4b4');g.addColorStop(1,'#3e3e3e');
+  c.fillStyle=g;c.beginPath();c.arc(125,135,100,0,6.283);c.fill();
+  c.globalCompositeOperation='destination-out';
+  c.beginPath();c.arc(172,112,88,0,6.283);c.fill();
+  c.globalCompositeOperation='source-over';
+  c.fillStyle='#5a5a5a';
+  [[62,150,9],[84,98,6],[70,200,7]].forEach(function(k){c.beginPath();c.arc(k[0],k[1],k[2],0,6.283);c.fill();});
+  c.fillStyle='#666';
+  star(c,214,52,15);star(c,236,150,9);star(c,200,226,11);
+  return s;
+}
+
+function halftone(src,dst,cell){
+  var w=src.width,h=src.height;
+  var d=src.getContext('2d').getImageData(0,0,w,h).data;
+  dst.width=w;dst.height=h;
+  var c=dst.getContext('2d');
+  c.clearRect(0,0,w,h);
+  c.drawImage(src,0,0);
+  c.globalCompositeOperation='source-in';
+  c.fillStyle='#e6dcc2';c.fillRect(0,0,w,h);
+  c.globalCompositeOperation='source-over';
+  c.fillStyle='#1a1814';
+  var a=Math.PI/4,cs=Math.cos(a),sn=Math.sin(a),D=Math.ceil(Math.hypot(w,h));
+  for(var gy=-D;gy<D;gy+=cell){for(var gx=-D;gx<D;gx+=cell){
+    var x=gx*cs-gy*sn+w/2,y=gx*sn+gy*cs+h/2;
+    if(x<0||y<0||x>=w||y>=h)continue;
+    var i=((y|0)*w+(x|0))*4;
+    if(d[i+3]<60)continue;
+    var lum=(d[i]*.3+d[i+1]*.59+d[i+2]*.11)/255;
+    var rr=(1-lum)*cell*.72;
+    if(rr<.4)continue;
+    c.beginPath();c.arc(x,y,rr,0,6.283);c.fill();
+  }}
+}
+
+function render(){
+  if(!cur)cur=drawMoon();
+  var m=document.getElementById('mode').value;
+  if(m==='foto'){
+    mc.width=cur.width;mc.height=cur.height;
+    var c=mc.getContext('2d');c.clearRect(0,0,mc.width,mc.height);c.drawImage(cur,0,0);
+  }else{
+    halftone(cur,mc,+document.getElementById('cell').value);
+  }
+}
+
+document.getElementById('rp').addEventListener('click',play);
+document.getElementById('mode').addEventListener('change',render);
+document.getElementById('cell').addEventListener('input',function(){document.getElementById('co').textContent=this.value;render();});
+document.getElementById('rs').addEventListener('click',function(){cur=null;document.getElementById('fl').value='';document.getElementById('mode').value='trama';render();});
+document.getElementById('fl').addEventListener('change',function(){
+  var f=this.files&&this.files[0];if(!f)return;
+  var img=new Image();
+  img.onload=function(){
+    var k=Math.min(300/img.width,300/img.height,1);
+    var s=document.createElement('canvas');
+    s.width=Math.max(1,Math.round(img.width*k));s.height=Math.max(1,Math.round(img.height*k));
+    s.getContext('2d').drawImage(img,0,0,s.width,s.height);
+    cur=s;document.getElementById('mode').value='foto';render();URL.revokeObjectURL(img.src);
+  };
+  img.src=URL.createObjectURL(f);
+});
+
+var R=rng(20111230),N={v:0};
+ransom(document.getElementById('ra'),'EL VIERNES',N,R);
+ransom(document.getElementById('rb'),'NO EXISTIÓ',N,R);
+calendars();burst();dust();render();play();
+</script>
